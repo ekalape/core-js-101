@@ -118,12 +118,12 @@ function fromJSON(proto, json) {
  *  For more examples see unit tests.
  */
 
-let counter = {
+/* let counter = {
   els: 0,
   ids: 0,
   psEls: 0,
-};
-class CssSelClass {
+}; */
+/* class CssSelClass {
   constructor() {
     this.str = '';
   }
@@ -161,15 +161,14 @@ class CssSelClass {
   stringify() {
     const s = this.str;
     this.str = '';
-    /*     console.log('inside class', s);
-    console.log('counter: ', counter); */
+
     counter = { els: 0, ids: 0, psEls: 0 };
-    /*    console.log('zeroing counter!', counter); */
+
     return s;
   }
-}
+} */
 
-const cssSelectorBuilder = {
+/* const cssSelectorBuilder = {
   obj: null,
   s: '',
 
@@ -198,19 +197,18 @@ const cssSelectorBuilder = {
   },
 
   class(value) {
-    /*   if (!this.obj) this.obj = new CssSelClass(); */
+
     this.obj = new CssSelClass().class(value);
     return this.obj;
   },
 
   attr(value) {
-    /*   if (!this.obj) this.obj = new CssSelClass(); */
-    this.obj = new CssSelClass().attr(value);
+
     return this.obj;
   },
 
   pseudoClass(value) {
-    /*   if (!this.obj) this.obj = new CssSelClass(); */
+
     this.obj = new CssSelClass().pseudoClass(value);
     return this.obj;
   },
@@ -233,9 +231,7 @@ const cssSelectorBuilder = {
       ids: 0,
       psEls: 0,
     };
-    /*     console.log('selector1 >>>', selector1);
-    console.log('selector2 >>>', selector2); */
-    const start = selector1.stringify();
+       const start = selector1.stringify();
 
     const end = selector2.stringify();
 
@@ -243,13 +239,39 @@ const cssSelectorBuilder = {
     return this;
   },
   stringify() {
-    /*     console.log(this); */
-
-    /*     console.log('inside builder'); */
-    const res = this.s;
+      const res = this.s;
     this.s = '';
 
     return res;
+  },
+}; */
+const cssSelectorBuilder = {
+  element(/* value */) {
+    throw new Error('Not implemented');
+  },
+
+  id(/* value */) {
+    throw new Error('Not implemented');
+  },
+
+  class(/* value */) {
+    throw new Error('Not implemented');
+  },
+
+  attr(/* value */) {
+    throw new Error('Not implemented');
+  },
+
+  pseudoClass(/* value */) {
+    throw new Error('Not implemented');
+  },
+
+  pseudoElement(/* value */) {
+    throw new Error('Not implemented');
+  },
+
+  combine(/* selector1, combinator, selector2 */) {
+    throw new Error('Not implemented');
   },
 };
 
