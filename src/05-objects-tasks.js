@@ -253,21 +253,6 @@ const cssSelectorBuilder = {
   },
 };
 
-/* const builder = cssSelectorBuilder;
-console.log(
-  builder.element('li').id('main').class('baba').class('only')
-    .stringify(),
-);
-console.log(
-  builder
-    .combine(
-      builder.element('p').pseudoClass('focus'),
-      '>',
-      builder.element('a').attr('href$=".png"'),
-    )
-    .stringify(),
-); */
-
 module.exports = {
   Rectangle,
   getJSON,
