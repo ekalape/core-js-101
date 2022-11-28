@@ -6,7 +6,6 @@
  *                                                                                                *
  ************************************************************************************************ */
 
-
 /**
  * Returns the rectangle object with width and height parameters and getArea() method
  *
@@ -20,10 +19,15 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  const obj = {};
+  obj.width = width;
+  obj.height = height;
+  obj.getArea = function ga() {
+    return this.width * this.height;
+  };
+  return obj;
 }
-
 
 /**
  * Returns the JSON representation of specified object
@@ -35,10 +39,9 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  return JSON.stringify(obj);
 }
-
 
 /**
  * Returns the object of specified type from JSON representation
@@ -51,10 +54,15 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  const prop = JSON.parse(json);
+  const obj = Object.create(proto);
+  const keys = Object.keys(prop);
+  for (let i = 0; i < keys.length; i += 1) {
+    obj[keys[i]] = prop[keys[i]];
+  }
+  return obj;
 }
-
 
 /**
  * Css selectors builder
@@ -110,36 +118,155 @@ function fromJSON(/* proto, json */) {
  *  For more examples see unit tests.
  */
 
+let counter = {
+  els: 0,
+  ids: 0,
+  psEls: 0,
+};
+class CssSelClass {
+  constructor() {
+    this.str = '';
+  }
+
+  element(value) {
+    this.str += value;
+    return this;
+  }
+
+  id(value) {
+    this.str += `#${value}`;
+    return this;
+  }
+
+  class(value) {
+    this.str += `.${value}`;
+    return this;
+  }
+
+  attr(value) {
+    this.str += `[${value}]`;
+    return this;
+  }
+
+  pseudoClass(value) {
+    this.str += `:${value}`;
+    return this;
+  }
+
+  pseudoElement(value) {
+    this.str += `::${value}`;
+    return this;
+  }
+
+  stringify() {
+    const s = this.str;
+    this.str = '';
+    console.log('inside class', s);
+    console.log('counter: ', counter);
+    counter = { els: 0, ids: 0, psEls: 0 };
+    console.log('zeroing counter!', counter);
+    return s;
+  }
+}
+
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  obj: null,
+  s: '',
+
+  element(value) {
+    if (counter.els > 0) {
+      throw new Error(
+        'Element, id and pseudo-element should not occur more then one time inside the selector',
+      );
+    } else {
+      counter.els += 1;
+      this.obj = new CssSelClass().element(value);
+    }
+    return this.obj;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    if (counter.ids > 0) {
+      throw new Error(
+        'Element, id and pseudo-element should not occur more then one time inside the selector',
+      );
+    } else {
+      counter.ids += 1;
+      this.obj = new CssSelClass().id(value);
+    }
+    return this.obj;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    /*   if (!this.obj) this.obj = new CssSelClass(); */
+    this.obj = new CssSelClass().class(value);
+    return this.obj;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    /*   if (!this.obj) this.obj = new CssSelClass(); */
+    this.obj = new CssSelClass().attr(value);
+    return this.obj;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    /*   if (!this.obj) this.obj = new CssSelClass(); */
+    this.obj = new CssSelClass().pseudoClass(value);
+    return this.obj;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    if (counter.psEls > 0) {
+      throw new Error(
+        'Element, id and pseudo-element should not occur more then one time inside the selector',
+      );
+    } else {
+      counter.psEls += 1;
+      this.obj = new CssSelClass().pseudoElement(value);
+    }
+    return this.obj;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    counter = {
+      els: 0,
+      ids: 0,
+      psEls: 0,
+    };
+    console.log('selector1 >>>', selector1);
+    console.log('selector2 >>>', selector2);
+    const start = selector1.stringify();
+
+    const end = selector2.stringify();
+
+    this.s = `${start} ${combinator} ${end}`;
+    return this;
+  },
+  stringify() {
+    console.log(this);
+
+    console.log('inside builder');
+    const res = this.s;
+    this.s = '';
+
+    return res;
   },
 };
 
+/* const builder = cssSelectorBuilder;
+console.log(
+  builder.element('li').id('main').class('baba').class('only')
+    .stringify(),
+);
+console.log(
+  builder
+    .combine(
+      builder.element('p').pseudoClass('focus'),
+      '>',
+      builder.element('a').attr('href$=".png"'),
+    )
+    .stringify(),
+); */
 
 module.exports = {
   Rectangle,
