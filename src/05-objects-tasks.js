@@ -161,10 +161,10 @@ class CssSelClass {
   stringify() {
     const s = this.str;
     this.str = '';
-    console.log('inside class', s);
-    console.log('counter: ', counter);
+    /*     console.log('inside class', s);
+    console.log('counter: ', counter); */
     counter = { els: 0, ids: 0, psEls: 0 };
-    console.log('zeroing counter!', counter);
+    /*    console.log('zeroing counter!', counter); */
     return s;
   }
 }
@@ -176,7 +176,7 @@ const cssSelectorBuilder = {
   element(value) {
     if (counter.els > 0) {
       throw new Error(
-        'Element, id and pseudo-element should not occur more then one time inside the selector',
+        'Element, id and pseudo-element should not occur more then one time inside the selector'
       );
     } else {
       counter.els += 1;
@@ -188,7 +188,7 @@ const cssSelectorBuilder = {
   id(value) {
     if (counter.ids > 0) {
       throw new Error(
-        'Element, id and pseudo-element should not occur more then one time inside the selector',
+        'Element, id and pseudo-element should not occur more then one time inside the selector'
       );
     } else {
       counter.ids += 1;
@@ -218,7 +218,7 @@ const cssSelectorBuilder = {
   pseudoElement(value) {
     if (counter.psEls > 0) {
       throw new Error(
-        'Element, id and pseudo-element should not occur more then one time inside the selector',
+        'Element, id and pseudo-element should not occur more then one time inside the selector'
       );
     } else {
       counter.psEls += 1;
@@ -233,8 +233,8 @@ const cssSelectorBuilder = {
       ids: 0,
       psEls: 0,
     };
-    console.log('selector1 >>>', selector1);
-    console.log('selector2 >>>', selector2);
+    /*     console.log('selector1 >>>', selector1);
+    console.log('selector2 >>>', selector2); */
     const start = selector1.stringify();
 
     const end = selector2.stringify();
@@ -243,9 +243,9 @@ const cssSelectorBuilder = {
     return this;
   },
   stringify() {
-    console.log(this);
+    /*     console.log(this); */
 
-    console.log('inside builder');
+    /*     console.log('inside builder'); */
     const res = this.s;
     this.s = '';
 
